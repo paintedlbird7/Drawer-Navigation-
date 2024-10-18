@@ -1,52 +1,36 @@
-import React from 'react'
-import { Button, Text, View, StyleSheet } from 'react-native'
-import { createStackNavigator } from '@react-navigation/stack'
-import { NavigationContainer } from '@react-navigation/native'
+import * as React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { View, Text, Button } from 'react-native';
 
-const Root = createStackNavigator()
-
-const Screen1 = ({ navigation, route }) => (
-  <View style={styles.screen}>
-    <Text style={styles.title}>Screen 1</Text>
-    <Button
-      title="Go to Screen 2"
-      onPress={() => {
-        navigation.push('Screen2')
-      }}
-    />
-  </View>
-)
-
-const Screen2 = ({ navigation, route }) => (
-  <View style={styles.screen}>
-    <Text style={styles.title}>Screen 2</Text>
-    <Button
-      title="Go back"
-      onPress={() => {
-        navigation.pop()
-      }}
-    />
-  </View>
-)
-
-export default function App() {
-return (
-<NavigationContainer>
-<Root.Navigator>
-  <Root.Screen name="Screen1" component={Screen1} />
-  <Root.Screen name="Screen2" component={Screen2} />
-</Root.Navigator>
-</NavigationContainer>
-)
+// Screens
+function HomeScreen({ navigation }) {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Home Screen</Text>
+      <Button title="Open Drawer" onPress={() => navigation.openDrawer()} />
+    </View>
+  );
 }
 
-const styles = StyleSheet.create({
-screen: {
-marginTop: 40,
-alignItems: 'center',
-},
-title: {
-padding: 20,
-fontSize: 42,
-},
-})
+function NotificationsScreen() {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Notifications Screen</Text>
+    </View>
+  );
+}
+
+// Create Drawer Navigator
+const Drawer = createDrawerNavigator();
+
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Drawer.Navigator initialRouteName="Home">
+        <Drawer.Screen name="Home" component={HomeScreen} />
+        <Drawer.Screen name="Notifications" component={NotificationsScreen} />
+      </Drawer.Navigator>
+    </NavigationContainer>
+  );
+}
